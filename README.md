@@ -18,6 +18,17 @@ A config file lets you adjust two things:
 - Max distance: how far a drone can travel before the HUD shows the out of range warning and red distance marker. You can set a default value and per vehicle overrides, so extra drones from other addons can each have their own limit.
 - Verbose logging: extra diagnostic messages in the log. Off by default. Only turn it on if you are troubleshooting.
 
+## Compatibility
+
+### SBW Drone Warfare
+
+If you also run the SBW Drone Warfare addon (`sbwdroneconfig`), Mavic automatically disables two of its features on startup because they solve the same problem a different way and would fight Mavic's camera:
+
+- **Player anchor** (`enableDronePlayerAnchor`, on by default in that addon) — it teleports your real body onto the drone while you fly. Mavic detaches the camera without moving you, so the anchor is redundant and causes rubber-banding.
+- **Drone chunk loading** (`enableDroneChunkLoading`) - it force-loads chunks around the drone, which Mavic already does through its own streaming.
+
+You do not need to change anything by hand. When both mods are present, Mavic turns these off and logs a line to the console (`[Mavic] Detected SBW Drone Warfare; disabled its redundant drone-view workarounds ...`).
+
 ## Versions
 
 Works on Minecraft 1.20.1 (Forge) and 1.21.1 (NeoForge). Requires Superb Warfare.
