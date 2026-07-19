@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(targets = "net.minecraft.server.level.ChunkMap$TrackedEntity")
 public abstract class TrackedEntityMixin implements MavicTracked {
@@ -20,11 +20,11 @@ public abstract class TrackedEntityMixin implements MavicTracked {
     @Shadow
     public abstract void updatePlayer(ServerPlayer player);
 
-    @Redirect(
+    @ModifyVariable(
             method = "updatePlayer(Lnet/minecraft/server/level/ServerPlayer;)V",
-            at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I"))
-    private int mavic$forceTrackRange(int a, int b, ServerPlayer player) {
-        return MavicStreaming.effectiveRange(this.entity, a, b, player);
+            at = @At("STORE"), ordinal = 0)
+    private boolean mavic$forceVisible(boolean flag, ServerPlayer player) {
+        return flag || MavicStreaming.shouldReveal(this.entity, player);
     }
 
     @Override

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.norwood"
-version = "1.0.0"
+version = "1.1.0"
 
 prism {
     metadata {
@@ -16,7 +16,6 @@ prism {
     curseMaven()
     maven("kotlinforforge", "https://thedarkcolour.github.io/KotlinForForge/")
     maven("theillusivec4", "https://maven.theillusivec4.top/")
-    maven("modrinth", "https://api.modrinth.com/maven")
 
     version("1.20.1") {
         forge {
@@ -28,7 +27,6 @@ prism {
                 modImplementation("curse.maven:geckolib-388172:8285794")
                 runtimeOnly("thedarkcolour:kotlinforforge:4.11.0")
                 modRuntimeOnly("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1")
-                modRuntimeOnly("maven.modrinth:embeddium:0.3.31+mc1.20.1")
             }
         }
     }

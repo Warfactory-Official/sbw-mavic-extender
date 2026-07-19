@@ -1,10 +1,12 @@
 package com.norwood.mavic;
 
 import com.mojang.logging.LogUtils;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
@@ -16,6 +18,9 @@ public class MavicNeoForge {
     public MavicNeoForge(IEventBus modEventBus, ModContainer container) {
         NeoForge.EVENT_BUS.register(new DroneChunkStreamer());
         container.registerConfig(ModConfig.Type.COMMON, MavicConfig.COMMON_SPEC);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            NeoForge.EVENT_BUS.register(new MavicClientDebug());
+        }
         LOG.info("[Mavic] initialized: DroneChunkStreamer registered on the game event bus (NeoForge)");
     }
 }

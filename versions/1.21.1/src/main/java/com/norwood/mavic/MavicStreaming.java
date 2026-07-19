@@ -19,7 +19,6 @@ import java.util.UUID;
 
 public final class MavicStreaming {
 
-    public static final int FORCE_RANGE = 1_000_000;
     public static final int STREAM_RADIUS = 12;
     public static final String MONITOR_ID = "superbwarfare:monitor";
     public static final ResourceLocation MONITOR_RL =
@@ -45,18 +44,17 @@ public final class MavicStreaming {
         return set != null && set.contains(ChunkPos.asLong(chunkX, chunkZ));
     }
 
-    public static int effectiveRange(Entity entity, int a, int b, Player player) {
-        int base = Math.min(a, b);
+    public static boolean shouldReveal(Entity entity, Player player) {
         if (entity == null || player == null) {
-            return base;
+            return false;
         }
         if (isOperatorDrone(entity, player)) {
             forceRangeHits++;
-            return FORCE_RANGE;
+            return true;
         }
         Map<UUID, LongOpenHashSet> snap = snapshot;
         if (snap.isEmpty()) {
-            return base;
+            return false;
         }
         LongOpenHashSet set = snap.get(player.getUUID());
         if (set != null) {
@@ -64,21 +62,10 @@ public final class MavicStreaming {
             if (set.contains(ChunkPos.asLong(cp.x, cp.z))) {
                 forceRangeHits++;
                 entityRevealHits++;
-                return FORCE_RANGE;
+                return true;
             }
         }
-        return base;
-    }
-
-    public static boolean isChunkTrackedByMavic(Entity entity, Player player) {
-        if (entity == null || player == null) {
-            return false;
-        }
-        if (isOperatorDrone(entity, player)) {
-            return true;
-        }
-        ChunkPos cp = entity.chunkPosition();
-        return isChunkStreamedTo(player.getUUID(), cp.x, cp.z);
+        return false;
     }
 
     public static boolean isDrone(Entity entity) {

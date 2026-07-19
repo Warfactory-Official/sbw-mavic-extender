@@ -150,9 +150,9 @@ public class DroneChunkStreamer {
                 boolean moved = prev == null || prev.longValue() != droneKey;
                 if (moved || this.ticks % 20 == 0) {
                     level.getChunkSource().addRegionTicket(STREAM_TICKET, drone, radius, Unit.INSTANCE);
-                    setCenter(operator, drone.x, drone.z);
                     lastCenter.put(id, droneKey);
                 }
+                setCenter(operator, drone.x, drone.z);
                 if (verbose && !wasViewing) {
                     LOG.info("[Mavic] TRANSFER->drone: player {} view-center -> chunk {} radius {}",
                             operator.getScoreboardName(), drone, radius);

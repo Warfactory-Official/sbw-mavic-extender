@@ -1,6 +1,5 @@
 package com.norwood.mavic.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.norwood.mavic.MavicStreaming;
 import com.norwood.mavic.MavicTracked;
 import net.minecraft.server.level.ServerPlayer;
@@ -9,7 +8,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(targets = "net.minecraft.server.level.ChunkMap$TrackedEntity")
 public abstract class TrackedEntityMixin implements MavicTracked {
@@ -21,19 +20,11 @@ public abstract class TrackedEntityMixin implements MavicTracked {
     @Shadow
     public abstract void updatePlayer(ServerPlayer player);
 
-    @Redirect(
+    @ModifyVariable(
             method = "updatePlayer(Lnet/minecraft/server/level/ServerPlayer;)V",
-            at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I"))
-    private int mavic$forceTrackRange(int a, int b, ServerPlayer player) {
-        return MavicStreaming.effectiveRange(this.entity, a, b, player);
-    }
-
-    @ModifyExpressionValue(
-            method = "updatePlayer(Lnet/minecraft/server/level/ServerPlayer;)V",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/server/level/ChunkMap;isChunkTracked(Lnet/minecraft/server/level/ServerPlayer;II)Z"))
-    private boolean mavic$alsoTrackStreamed(boolean original, ServerPlayer player) {
-        return original || MavicStreaming.isChunkTrackedByMavic(this.entity, player);
+            at = @At("STORE"), ordinal = 0)
+    private boolean mavic$forceVisible(boolean flag, ServerPlayer player) {
+        return flag || MavicStreaming.shouldReveal(this.entity, player);
     }
 
     @Override
