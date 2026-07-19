@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.norwood.mavic.mixin",
+  "plugin": "com.norwood.mavic.mixin.MavicMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "refmap": "sbw_mavic_extender.refmap.json",
   "mixins": [
