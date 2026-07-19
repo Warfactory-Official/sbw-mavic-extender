@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.norwood.mavic.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "sbw_mavic_extender.refmap.json",
+  "mixins": [
+    "ChunkMapAccessor",
+    "TrackedEntityMixin"
+  ],
+  "client": [
+    "DroneHudOverlayMixin",
+    "LevelRendererMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

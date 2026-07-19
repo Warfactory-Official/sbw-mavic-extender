@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "GPL-3.0"
+
+[[mods]]
+modId = "sbw_mavic_extender"
+version = "${version}"
+displayName = "[SBW] Mavic drone extender"
+description = "A Prism multi-version mod."
+
+[[dependencies.sbw_mavic_extender]]
+modId = "forge"
+mandatory = true
+versionRange = "[47.4.18,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sbw_mavic_extender]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sbw_mavic_extender]]
+modId = "superbwarfare"
+mandatory = true
+versionRange = "[0.8,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mixins]]
+config = "sbw_mavic_extender.mixins.json"
